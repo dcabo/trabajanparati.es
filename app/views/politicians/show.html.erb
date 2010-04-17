@@ -10,20 +10,20 @@
     <table id="data-table" cellspacing="1" class="tablesorter">             
 	    <thead>
 	      <tr>
-	        <th width="100%">Fecha</th>
-	        <th width="100%">Motivo</th>
-	        <th width="100%">Cargo</th>
-	        <th width="100%">Organismo</th>
-	        <th width="100%">Inmuebles</th>
-	        <th width="100%">Cuentas</th>
-	        <th width="100%">Fondos</th>
-	        <th width="100%">Seguros</th>
-	        <th width="100%">Vehículos</th>
-	        <th width="100%">Préstamos</th>
+	        <th>Fecha</th>
+	        <th>Motivo</th>
+	        <th>Cargo</th>
+	        <th>Organismo</th>
+	        <th>Inmuebles</th>
+	        <th>Cuentas</th>
+	        <th>Fondos</th>
+	        <th>Seguros</th>
+	        <th>Vehículos</th>
+	        <th>Préstamos</th>
 	      </tr>
 	    </thead>
 	    <tbody>
-      <% for statement in @politician.statements(:order=>'event_date desc') %>
+      <% for statement in @politician.statements %>
 			<tr>
 				<td><%= link_to statement.event_date, [@politician, statement] %></td>
 				<td><%= statement.event %></td>
