@@ -9,10 +9,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100417210302) do
+ActiveRecord::Schema.define(:version => 20100417214405) do
+
+  create_table "politicians", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "statements", :force => true do |t|
-    t.string   "name"
     t.string   "entity"
     t.string   "position"
     t.string   "event"
@@ -25,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20100417210302) do
     t.integer  "total_liabilities"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "politician_id"
   end
 
 end

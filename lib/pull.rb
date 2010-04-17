@@ -6,11 +6,15 @@ class Parser
 
   # Crappy xpath code ahead...
   def parse_personal_data(t, s)
+    # Get politician name...
     first_family_name = t.search("tr:nth-child(2) .col5Cont:nth-child(1)").children.last.text
     second_family_name = t.search("tr:nth-child(2) .col5Cont:nth-child(2)").children.last.text
     first_name = t.search("tr:nth-child(2) .col5Cont:nth-child(3)").children.last.text
-  
-    s.name = "#{first_name} #{first_family_name} #{second_family_name}"
+    
+    # ...and use that to fetch the DB entry (or create it if needed)
+    p = Politician.find_or_create_by_name("#{first_name} #{first_family_name} #{second_family_name}")
+    
+    s.politician = p
     s.position = t.search("tr:nth-child(3) .col5Cont:nth-child(1)").children.last.text
     s.entity = t.search("tr:nth-child(4) .col5Cont:nth-child(1)").children.last.text
   end
@@ -136,7 +140,7 @@ class Parser
     parse_financial_statement(financial_statement, s)  
   
     # Delete the same statement, if exists
-    Statement.delete_all(["name=? and event_date=?", s.name, s.event_date])
+    Statement.delete_all(["politician_id=? and event_date=?", s.politician, s.event_date])
   
     s.save!
   end
