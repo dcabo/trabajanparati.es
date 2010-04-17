@@ -6,9 +6,11 @@ BASE_URL = 'https://ws037.juntadeandalucia.es/riibp/publica/'
 
 # Crappy xpath code ahead...
 def parse_personal_data(t, attrs)
-  attrs[:first_family_name] = t.search("tr:nth-child(2) .col5Cont:nth-child(1)").children.last.text
-  attrs[:second_family_name] = t.search("tr:nth-child(2) .col5Cont:nth-child(2)").children.last.text
-  attrs[:first_name] = t.search("tr:nth-child(2) .col5Cont:nth-child(3)").children.last.text
+  first_family_name = t.search("tr:nth-child(2) .col5Cont:nth-child(1)").children.last.text
+  second_family_name = t.search("tr:nth-child(2) .col5Cont:nth-child(2)").children.last.text
+  first_name = t.search("tr:nth-child(2) .col5Cont:nth-child(3)").children.last.text
+  
+  attrs[:name] = "#{first_name} #{first_family_name} #{second_family_name}"
   attrs[:position] = t.search("tr:nth-child(3) .col5Cont:nth-child(1)").children.last.text
   attrs[:entity] = t.search("tr:nth-child(4) .col5Cont:nth-child(1)").children.last.text
 end
@@ -32,7 +34,7 @@ def extract_amounts_from_table(t)
 end
 
 
-def parse_assets(t)
+def parse_assets(t, attrs)
   assets = t.children.last.children # TD inside the second TR  
   # Parse the actual financial data, which comes as text + embedded tables
   expecting = ''
@@ -57,32 +59,36 @@ def parse_assets(t)
     when /^Saldo total de cuentas bancarias/:
       expecting = :bank_account_data
     when /^\302/:
-      puts "GOT CASH #{parse_amount(line.text)}" if ( expecting == :bank_account_data )
+      if ( expecting == :bank_account_data )
+        attrs[:total_cash] = parse_amount(line.text)
+      else
+        puts "## WARNING #{line.text}"
+      end      
     else
       if (line.node_name == 'table')
         values = extract_amounts_from_table(line)
         case expecting
         when :property_data 
           values.each { |value| puts "  GOT PROPERTY #{value}" }
-          puts "GOT TOTAL PROPERTY #{values.inject(0) { |sum,x| sum+x }}"
+          attrs[:total_property] = values.inject(0) { |sum,x| sum+x }
         when :funds_data
           values.each { |value| puts "  GOT FUNDS #{value}" }
-          puts "GOT TOTAL FUNDS #{values.inject(0) { |sum,x| sum+x }}"
+          attrs[:total_funds] = values.inject(0) { |sum,x| sum+x }
         when :vehicle_data
           values.each { |value| puts "  GOT VEHICLE #{value}" }
-          puts "GOT TOTAL VEHICLE #{values.inject(0) { |sum,x| sum+x }}"
+          attrs[:total_vehicle] = values.inject(0) { |sum,x| sum+x }
         when :insurance_data
           values.each { |value| puts "  GOT INSURANCE #{value}" }
-          puts "GOT TOTAL INSURANCE #{values.inject(0) { |sum,x| sum+x }}"
+          attrs[:total_insurance] = values.inject(0) { |sum,x| sum+x }
         end
       else
-        puts "## #{line.text}"
+        puts "## WARNING #{line.text}"
       end
     end
   end  
 end
 
-def parse_liabilities(t)
+def parse_liabilities(t, attrs)
   liabilities = t.children.last.children
   # Parse the actual financial data, which comes as text + embedded tables
   liabilities.children.each do |line|
@@ -93,12 +99,11 @@ def parse_liabilities(t)
       # Nothing to do
     else
       if (line.node_name == 'table')
-        # The HTML is broken, so we can't fetch the <tr>. use TD instead, brute force...
-        line.search("td").each do |td|
-          puts "OWES #{parse_amount(td.text)}" if td.text =~ /\d/
-        end
+        values = extract_amounts_from_table(line)
+        values.each { |value| puts "  OWES #{value}" }
+        attrs[:total_liabilities] = values.inject(0) { |sum,x| sum+x }
       else
-        puts "## #{line.text}"
+        puts "## WARNING #{line.text}"
       end
     end
   end  
@@ -109,9 +114,9 @@ def parse_financial_statement(t, attrs)
     puts "ERROR!! WTF is this? #{section}" if section.children.size != 2
     
     if ( section.children.first.text =~ /^ACTIVO/ )
-      parse_assets(section) 
+      parse_assets(section, attrs) 
     elsif ( section.text =~ /^PASIVO/ )
-      parse_liabilities(section) 
+      parse_liabilities(section, attrs) 
     else
       puts "ERROR!! WTF is this? #{section}"
     end
