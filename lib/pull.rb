@@ -67,7 +67,7 @@ class Parser
         if ( expecting == :bank_account_data )
           s.total_cash = parse_amount(line.text)
         else
-          logger.warning "## #{line.text}"
+          logger.warn "## #{line.text}"
         end      
       else
         if (line.node_name == 'table')
@@ -87,7 +87,7 @@ class Parser
             s.total_insurance = values.inject(0) { |sum,x| sum+x }
           end
         else
-          logger.warning "## WARNING #{line.text}"
+          logger.warn "## #{line.text}"
         end
       end
     end  
@@ -108,7 +108,7 @@ class Parser
           values.each { |value| logger.debug "  OWES #{value}" }
           s.total_liabilities = values.inject(0) { |sum,x| sum+x }
         else
-          logger.warning "## #{line.text}"
+          logger.warn "## #{line.text}"
         end
       end
     end  
@@ -162,6 +162,12 @@ end
 p = Parser.new
 
 url = 'detallesdb.do?accion=download&id=1729'
-p.parse_statement_page(url)
+#p.parse_statement_page(url)
 
-#p.parse_personal_page("1")
+#p.parse_personal_page("2")
+
+
+# Same person, three roles
+p.parse_personal_page("5")
+p.parse_personal_page("477")
+p.parse_personal_page("708")
