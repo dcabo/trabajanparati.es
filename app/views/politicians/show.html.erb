@@ -1,2 +1,43 @@
-<h1>Politician#view</h1>
-<p>Find me in app/views/politician/view.html.erb</p>
+<div class="push-1 span-18"> 
+	<h2>Patrimonios declarados - <%= @politician.name %></h2>
+  <div class="push-1 span-16 last" id="graph-params">
+      <p class="large">Blah blah</p>
+      <p>Blah blah blah.</p>
+      <p class="small">(Datos: Junta de Andalucía)</p>
+  </div>
+
+  <div class=" span-14 last">
+    <table id="data-table" cellspacing="1" class="tablesorter">             
+	    <thead>
+	      <tr>
+	        <th width="100%">Fecha</th>
+	        <th width="100%">Motivo</th>
+	        <th width="100%">Cargo</th>
+	        <th width="100%">Organismo</th>
+	        <th width="100%">Inmuebles</th>
+	        <th width="100%">Cuentas</th>
+	        <th width="100%">Fondos</th>
+	        <th width="100%">Seguros</th>
+	        <th width="100%">Vehículos</th>
+	        <th width="100%">Préstamos</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+      <% for statement in @politician.statements(:order=>'event_date desc') %>
+			<tr>
+				<td><%= link_to statement.event_date, [@politician, statement] %></td>
+				<td><%= statement.event %></td>
+				<td><%= statement.position %></td>
+				<td><%= statement.entity %></td>
+				<td><%= statement.total_property || '0' %> €</td>
+				<td><%= statement.total_cash || '0' %> €</td>
+				<td><%= statement.total_funds || '0' %> €</td>
+				<td><%= statement.total_insurance || '0' %> €</td>
+				<td><%= statement.total_vehicles || '0' %> €</td>
+				<td><%= statement.total_liabilities || '0' %> €</td>
+			</tr>
+			<% end %>
+	    </tbody>
+	  </table>
+  </div>
+</div>			
