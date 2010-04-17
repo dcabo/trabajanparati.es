@@ -19,7 +19,7 @@ def parse_statement_trigger(t, attrs)
 end
 
 def parse_amount(s)
-  s.strip.gsub(/[^0-9,]+/i, '')
+  s.strip.gsub(/[^0-9,]+/i, '').to_i  # We ignore cents
 end
 
 def extract_amounts_from_table(t)
@@ -30,6 +30,7 @@ def extract_amounts_from_table(t)
   end
   amounts
 end
+
 
 def parse_assets(t)
   assets = t.children.last.children # TD inside the second TR  
@@ -49,6 +50,8 @@ def parse_assets(t)
       # Do nothing? part of case above always?
     when /^Automóviles/:
       expecting = :vehicle_data
+    when /VALOR EUROS/:
+      # Do nothing? part of case above always?
     when /^Seguros de vida/:
       expecting = :insurance_data
     when /^Saldo total de cuentas bancarias/:
@@ -59,10 +62,18 @@ def parse_assets(t)
       if (line.node_name == 'table')
         values = extract_amounts_from_table(line)
         case expecting
-        when :property_data then values.each { |value| puts "GOT PROPERTY #{value}" }
-        when :funds_data then values.each { |value| puts "GOT FUNDS #{value}" }
-        when :vehicle_data then values.each { |value| puts "GOT VEHICLE #{value}" }
-        when :insurance_data then values.each { |value| puts "GOT INSURANCE #{value}" }
+        when :property_data 
+          values.each { |value| puts "  GOT PROPERTY #{value}" }
+          puts "GOT TOTAL PROPERTY #{values.inject(0) { |sum,x| sum+x }}"
+        when :funds_data
+          values.each { |value| puts "  GOT FUNDS #{value}" }
+          puts "GOT TOTAL FUNDS #{values.inject(0) { |sum,x| sum+x }}"
+        when :vehicle_data
+          values.each { |value| puts "  GOT VEHICLE #{value}" }
+          puts "GOT TOTAL VEHICLE #{values.inject(0) { |sum,x| sum+x }}"
+        when :insurance_data
+          values.each { |value| puts "  GOT INSURANCE #{value}" }
+          puts "GOT TOTAL INSURANCE #{values.inject(0) { |sum,x| sum+x }}"
         end
       else
         puts "## #{line.text}"
