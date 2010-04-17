@@ -1,0 +1,84 @@
+/* =structure */
+.container{padding-top: 18px; padding-bottom: 18px;}
+#access{float:left;margin:0;padding:0;text-transform:uppercase;}
+#access a,span#blog-description{font-weight:400;}
+#footer{clear:both;font-size:10px;padding-top:36px;}
+#header{float:left;height:50px;} /* CABO */
+#header img{border:2px solid #eee;clear:both;float:left;}
+#menu ul{margin:0;}
+#menu ul li{float:left;list-style-type:none;padding-right:10px;}
+h1#blog-title{display:inline;float:left;font-size:12px;font-weight:800;text-transform:uppercase;}
+h1#blog-title { 
+  font-family: "Lucida Grande", "Helvetica Neue", Arial, Helvetica, sans-serif;;
+  font-size: 1.25em;
+  }
+#access {
+  font-family: "Lucida Grande", "Helvetica Neue", Arial, Helvetica, sans-serif;;
+  font-size: 1.1em;
+  }
+#footer { padding-top: 100px; }
+
+/* =links */
+a:link,a:visited{color:#222;font-weight:800;text-decoration:none;}
+a:hover{text-decoration:underline;}
+#content a:link, #content a:visited{color:#013C92;} /* Color the links in the page body a bit blue */
+
+/* text */
+#content p { font-family: Verdana, "Lucida Grande", "Helvetica Neue", Arial, Helvetica, sans-serif; }
+#content p.intro { font-size: 1.2em; }
+
+/* no script */
+#no-script-warning {
+	background-color:#FFFF99;
+	width: 130%;
+	clear: both;
+	border-top: solid 2px #FF9900;
+	border-bottom: solid 2px #FF9900;
+}
+
+/* graph */
+#graph-params .option-selected { border-bottom: solid 3px #FF9900; }
+#flot-wrapper table { width:auto; }
+#flot-wrapper { font-size: 1.10em; }
+
+/* =tabs */
+.tabs ul li {
+    float:left;
+    list-style-type:none;
+    margin-right: 10px;    
+    border-bottom: 0px;
+}
+.tab-selected { background-color: #e0e0e0; padding: 5px; }
+.tab-unselected { background-color: #FFF; padding: 5px 5px 0px 5px; border: dotted 1px #DDD; }
+.tab-unselected a { color: #999; }
+.tab-unselected a:focus, a:hover { color: #222222; }
+.tabs .panel {
+    background-color: #fbfbfb;
+    padding: 10px;
+    border: dotted 1px #e0e0e0;
+    border-top: solid 2px #e0e0e0;
+}
+
+/* table */
+table.grid { border: dotted 1px #e0e0e0; }
+.grid td { border-bottom: dotted 1px #e0e0e0; }
+.grid th { background-color: #e0e0e0; }
+/* Our tables include <td>s also in the thead, and we want them bold */
+thead th, thead td {font-weight:bold;background:#C3D9FF;}
+
+/* =notice (adapted from twitturly) */
+.notice {
+  border-color:#FFF5E6;
+  background:#FFF5E6;
+  color:#333333;
+  font-size:1em;
+  margin:0 0 15px;
+  padding:8px;
+  }
+.notice_close {
+  background:transparent url(/images/notice_close.gif) no-repeat scroll right center;
+  float:right;
+  padding-left:30px;
+  padding-right:30px;
+  }
+.hand{cursor:pointer;cursor:hand}

@@ -1,0 +1,46 @@
+<html>
+<head>
+	<title>Trabajan Para Ti</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	
+	<!--[if IE]><link rel="stylesheet" href="/stylesheets/ie.css" type="text/css" media="screen, projection" /><![endif]-->
+	<%= stylesheet_link_tag 'screen', 'application', 'style.css', :cache => true %>
+</head>
+<body>
+	<div class="container">
+		<div id="header" class="prepend-1 span-8 append-3">
+			<h1 id="blog-title">
+				<a href="/" title="Trabajan Para Ti" rel="home">Trabajan Para Ti</a>
+			</h1>
+		</div><!--  #header -->
+		<div id="access" class="span-9 last">
+			<div id="menu" style="float: right;">
+				<ul>
+				<li class="page_item"><a href="/" title="Inicio">Inicio</a></li>
+				</ul>
+			</div>
+		</div><!-- #access -->
+		<div id="content" class="prepend-1 span-20 clear">
+		  <% if @needs_javascript %>
+        <noscript>
+            <div id="no-script-warning" class="pull-5 prepend-5 large">
+                <p class="large">Esta página necesita Javascript para funcionar.
+                Puedes activarlo siguiendo <a href="http://www.google.es/support/bin/answer.py?answer=23852">estas instrucciones.</a></p>
+            </div>
+        </noscript>	
+      <% end %>	
+            	
+		<%= yield %> 
+
+		</div><!-- #container -->
+
+		<div id="footer" class="prepend-2">
+			&copy; 2010
+			<span class="meta-sep"> | </span>
+			<a href="mailto:david@calibea.com">Contacto</a>
+			<span class="meta-sep">
+		</div><!-- #footer -->
+	</div>
+	
+  </body>
+</html>

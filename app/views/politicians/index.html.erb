@@ -1,0 +1,26 @@
+<div class="push-1 span-18"> 
+	<h2>Patrimonios declarados</h2>
+  <div class="push-1 span-16 last" id="graph-params">
+      <p class="large">Blah blah</p>
+      <p>Blah blah blah.</p>
+      <p class="small">(Datos: Junta de Andalucía)</p>
+  </div>
+
+  <div class="prepend-2 span-12 last">
+    <table id="data-table" cellspacing="1" class="tablesorter">             
+	    <thead>
+	      <tr>
+	        <th width="100%">Nombre</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+      <% for politician in @politicians %>
+			<tr>
+				<td><%= link_to politician.name, politician %></td>
+			</tr>
+			<% end %>
+	    </tbody>
+	  </table>
+  </div>
+</div>			
+			
