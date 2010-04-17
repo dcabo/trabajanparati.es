@@ -22,6 +22,15 @@ def parse_amount(s)
   s.strip.gsub(/[^0-9,]+/i, '')
 end
 
+def extract_amounts_from_table(t)
+  # The HTML is broken, so we can't fetch the <tr>. use TD instead, brute force...
+  amounts = []
+  t.search("td").each do |td|
+    amounts.push(parse_amount(td.text)) if td.text =~ /\d/
+  end
+  amounts
+end
+
 def parse_assets(t)
   assets = t.children.last.children # TD inside the second TR  
   # Parse the actual financial data, which comes as text + embedded tables
@@ -39,27 +48,22 @@ def parse_assets(t)
     when /^ENTIDADVALOR EUROS/:
       # Do nothing? part of case above always?
     when /^Automóviles/:
-      expecting = :vehicle_data      
+      expecting = :vehicle_data
+    when /^Seguros de vida/:
+      expecting = :insurance_data
     when /^Saldo total de cuentas bancarias/:
       expecting = :bank_account_data
     when /^\302/:
       puts "GOT CASH #{parse_amount(line.text)}" if ( expecting == :bank_account_data )
     else
-      if (line.node_name == 'table' and expecting == :property_data)
-        # The HTML is broken, so we can't fetch the <tr>. use TD instead, brute force...
-        line.search("td").each do |td|
-          puts "GOT PROPERTY #{parse_amount(td.text)}" if td.text =~ /\d/
+      if (line.node_name == 'table')
+        values = extract_amounts_from_table(line)
+        case expecting
+        when :property_data then values.each { |value| puts "GOT PROPERTY #{value}" }
+        when :funds_data then values.each { |value| puts "GOT FUNDS #{value}" }
+        when :vehicle_data then values.each { |value| puts "GOT VEHICLE #{value}" }
+        when :insurance_data then values.each { |value| puts "GOT INSURANCE #{value}" }
         end
-      elsif (line.node_name == 'table' and expecting == :funds_data)
-          # The HTML is broken, so we can't fetch the <tr>. use TD instead, brute force...
-          line.search("td").each do |td|
-            puts "GOT FUNDS #{parse_amount(td.text)}" if td.text =~ /\d/
-          end
-      elsif (line.node_name == 'table' and expecting == :vehicle_data)
-          # The HTML is broken, so we can't fetch the <tr>. use TD instead, brute force...
-          line.search("td").each do |td|
-            puts "GOT VEHICLES #{parse_amount(td.text)}" if td.text =~ /\d/
-          end
       else
         puts "## #{line.text}"
       end
@@ -126,6 +130,6 @@ def parse_personal_page(person_id)
 end
 
 url = 'detallesdb.do?accion=download&id=1729'
-#parse_statement_page(url)
+parse_statement_page(url)
 
-parse_personal_page("2")
+#parse_personal_page("1")
