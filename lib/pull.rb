@@ -33,7 +33,13 @@ def parse_assets(t)
     when /^Bienes/:
       expecting = :property_data
     when /^CARACTERÍSTICAS/:
-      # TODO: Do nothing? part of case above always?
+      # Do nothing? part of case above always?
+    when /^Acciones y participaciones/:
+      expecting = :funds_data
+    when /^ENTIDADVALOR EUROS/:
+      # Do nothing? part of case above always?
+    when /^Automóviles/:
+      expecting = :vehicle_data      
     when /^Saldo total de cuentas bancarias/:
       expecting = :bank_account_data
     when /^\302/:
@@ -44,6 +50,16 @@ def parse_assets(t)
         line.search("td").each do |td|
           puts "GOT PROPERTY #{parse_amount(td.text)}" if td.text =~ /\d/
         end
+      elsif (line.node_name == 'table' and expecting == :funds_data)
+          # The HTML is broken, so we can't fetch the <tr>. use TD instead, brute force...
+          line.search("td").each do |td|
+            puts "GOT FUNDS #{parse_amount(td.text)}" if td.text =~ /\d/
+          end
+      elsif (line.node_name == 'table' and expecting == :vehicle_data)
+          # The HTML is broken, so we can't fetch the <tr>. use TD instead, brute force...
+          line.search("td").each do |td|
+            puts "GOT VEHICLES #{parse_amount(td.text)}" if td.text =~ /\d/
+          end
       else
         puts "## #{line.text}"
       end
@@ -52,7 +68,6 @@ def parse_assets(t)
 end
 
 def parse_liabilities(t)
-  puts "Parsing liabilities"
   liabilities = t.children.last.children
   # Parse the actual financial data, which comes as text + embedded tables
   liabilities.children.each do |line|
@@ -90,7 +105,8 @@ end
 
 def parse_statement_page(url)
   agent = Mechanize.new
-  tables = agent.get(url).search("form > table")
+  puts "Parsing #{BASE_URL+url}..."
+  tables = agent.get(BASE_URL+url).search("form > table")
 
   attrs = {}
   parse_personal_data(tables[0], attrs)
@@ -109,7 +125,7 @@ def parse_personal_page(person_id)
   end
 end
 
-url = 'https://ws037.juntadeandalucia.es/riibp/publica/detallesdb.do?accion=download&id=1671' # no activities
-url = 'https://ws037.juntadeandalucia.es/riibp/publica/detallesdb.do?accion=download&id=2409' # all
+url = 'detallesdb.do?accion=download&id=1729'
+#parse_statement_page(url)
 
-parse_statement_page(url)
+parse_personal_page("2")
