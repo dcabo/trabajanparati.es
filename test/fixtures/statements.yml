@@ -1,0 +1,27 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  entity: MyString
+  position: MyString
+  event: MyString
+  event_date: 2010-04-17
+  total_property: 1
+  total_funds: 1
+  total_insurance: 1
+  total_vehicles: 1
+  total_cash: 1
+  total_liabilities: 1
+
+two:
+  name: MyString
+  entity: MyString
+  position: MyString
+  event: MyString
+  event_date: 2010-04-17
+  total_property: 1
+  total_funds: 1
+  total_insurance: 1
+  total_vehicles: 1
+  total_cash: 1
+  total_liabilities: 1
