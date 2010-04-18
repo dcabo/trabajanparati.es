@@ -168,7 +168,7 @@ class Parser
 
   def parse_statement_page(url)
     agent = Mechanize.new
-    logger.info "Parsing #{BASE_URL+url}..."
+    puts "Parsing #{BASE_URL+url}..."
     tables = agent.get(BASE_URL+url).search("form > table")
 
     s = Statement.new
