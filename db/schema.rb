@@ -30,12 +30,12 @@ ActiveRecord::Schema.define(:version => 20100418102631) do
     t.string   "position"
     t.string   "event"
     t.date     "event_date"
-    t.integer  "total_property"
-    t.integer  "total_funds"
-    t.integer  "total_insurance"
-    t.integer  "total_vehicles"
-    t.integer  "total_cash"
-    t.integer  "total_liabilities"
+    t.integer  "total_property",    :default => 0
+    t.integer  "total_funds",       :default => 0
+    t.integer  "total_insurance",   :default => 0
+    t.integer  "total_vehicles",    :default => 0
+    t.integer  "total_cash",        :default => 0
+    t.integer  "total_liabilities", :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "politician_id"

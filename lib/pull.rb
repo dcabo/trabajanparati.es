@@ -199,10 +199,10 @@ end
 p = Parser.new
 
 url = 'detallesdb.do?accion=download&id=1729'
-p.parse_statement_page(url)
+#p.parse_statement_page(url)
 
 #p.parse_personal_page("1")
-#p.parse_personal_page("2")
+p.parse_personal_page("2")
 
 
 # Same person, three roles

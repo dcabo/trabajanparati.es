@@ -1,3 +1,16 @@
+<%= render :partial => "partials/include_base" %>  
+<%= javascript_include_tag 'jquery.tablesorter' %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#data-table").tablesorter({ 
+      textExtraction: function(node) { 
+        return node.textContent.replace(/[,€]/g,'');
+      }
+    });
+  });
+</script>
+
 <div class="push-1 span-18"> 
 	<h2>Patrimonios declarados</h2>
   <div class="push-1 span-16 last" id="graph-params">
@@ -10,13 +23,15 @@
     <table id="data-table" cellspacing="1" class="tablesorter">             
 	    <thead>
 	      <tr>
-	        <th width="100%">Nombre</th>
+	        <th width="70%">Nombre</th>
+	        <th width="30%">Último Patrimonio</th>
 	      </tr>
 	    </thead>
 	    <tbody>
       <% for politician in @politicians %>
 			<tr>
 				<td><%= link_to politician.name, politician %></td>
+				<td class="ralign"><%= politician.statements.first.net_worth %> €</td>
 			</tr>
 			<% end %>
 	    </tbody>
