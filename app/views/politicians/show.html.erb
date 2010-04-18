@@ -20,11 +20,6 @@
       [<%= statement.event_date.to_datetime.to_f*1000 %>, <%= statement.total_funds||0 %>],
     <% end %>
     ];
-    var total_insurance = [
-    <% for statement in @politician.statements.reverse %>
-      [<%= statement.event_date.to_datetime.to_f*1000 %>, <%= statement.total_insurance||0 %>],
-    <% end %>
-    ];
     var total_vehicles = [
     <% for statement in @politician.statements.reverse %>
       [<%= statement.event_date.to_datetime.to_f*1000 %>, <%= statement.total_vehicles||0 %>],
@@ -37,9 +32,7 @@
     ];
     var total_net_worth = [
     <% for statement in @politician.statements.reverse %>
-      [<%= statement.event_date.to_datetime.to_f*1000 %>, 
-        <%=(statement.total_property||0)+(statement.total_cash||0)+(statement.total_funds||0)+
-        (statement.total_insurance||0)+(statement.total_vehicles||0)-(statement.total_liabilities||0) %>],
+      [<%= statement.event_date.to_datetime.to_f*1000 %>, <%=statement.net_worth %>],
     <% end %>
     ];
     
@@ -47,7 +40,6 @@
       {label: "Inmuebles", data: total_property},
       {label: "Cuentas Bancarias", data: total_cash},
       {label: "Acciones y Fondos", data: total_funds},
-      {label: "Seguros de Vida", data: total_insurance},
       {label: "Vehículos", data: total_vehicles},
       {label: "Préstamos/Hipotecas", data: total_liabilities, stack: 'liabilities'},
       {label: "<b>Patrimonio Neto</b>", data: total_net_worth, stack: null, bars: {show: false}, lines: { show: true }}
