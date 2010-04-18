@@ -83,7 +83,7 @@
       <% for item in @politician.statements.first.items %>
 			<tr>
 				<td><%= item.description%></a></td>
-				<td class="ralign"><%= item.value %> €</td>
+				<td class="ralign"><%= number_with_delimiter(item.value) %> €</td>
 			</tr>
 			<% end %>
 	    </tbody>
@@ -114,12 +114,12 @@
 				<td><%= statement.event %></td>
 				<td><%= statement.position %></td>
 				<td><%= statement.entity %></td>
-				<td class="ralign"><%= statement.total_property || '0' %> €</td>
-				<td class="ralign"><%= statement.total_cash || '0' %> €</td>
-				<td class="ralign"><%= statement.total_funds || '0' %> €</td>
-				<td class="ralign"><%= statement.total_insurance || '0' %> €</td>
-				<td class="ralign"><%= statement.total_vehicles || '0' %> €</td>
-				<td class="ralign"><%= statement.total_liabilities || '0' %> €</td>
+				<td class="ralign"><%= number_with_delimiter(statement.total_property) %> €</td>
+				<td class="ralign"><%= number_with_delimiter(statement.total_cash) %> €</td>
+				<td class="ralign"><%= number_with_delimiter(statement.total_funds) %> €</td>
+				<td class="ralign"><%= number_with_delimiter(statement.total_insurance) %> €</td>
+				<td class="ralign"><%= number_with_delimiter(statement.total_vehicles) %> €</td>
+				<td class="ralign"><%= number_with_delimiter(statement.total_liabilities) %> €</td>
 			</tr>
 			<% end %>
 	    </tbody>
