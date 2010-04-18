@@ -64,10 +64,11 @@
 </script>
 
 <div class="push-1 span-18"> 
-	<h2>Patrimonios declarados - <%= @politician.name %></h2>
+	<h2>Evolución del Patrimonio Declarado</h2>
   <div class="push-1 span-16 last">
-      <p class="large">Blah blah</p>
-      <p>Blah blah blah.</p>
+      <p class="large">Alto Cargo: <b><%= @politician.name %></b></p>
+      <p>Último cargo: <%= @politician.statements.first.position %></p>
+      <p>Organismo: <%= @politician.statements.first.entity %></p>
       <p class="small">(Datos: Junta de Andalucía)</p>
   </div>
 
