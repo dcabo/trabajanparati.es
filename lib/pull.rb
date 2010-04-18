@@ -90,7 +90,7 @@ class Parser
           s.total_cash = parse_amount(line.text)
           s.items << Item.new(:description=>"CUENTAS BANCARIAS", :value=>s.total_cash)
         else
-          logger.warn "## #{line.text}"
+          puts "## WARNING #{line.text}"
         end      
       else
         if (line.node_name == 'table')
@@ -122,7 +122,7 @@ class Parser
             s.total_insurance = values.inject(0) { |sum,x| sum+x[1] }
           end
         else
-          logger.warn "## #{line.text}"
+          puts "## WARNING #{line.text}"
         end
       end
     end  
@@ -146,7 +146,7 @@ class Parser
           }
           s.total_liabilities = values.inject(0) { |sum,x| sum+x[1] }
         else
-          logger.warn "## #{line.text}"
+          puts "## WARNING #{line.text}"
         end
       end
     end  
@@ -154,14 +154,14 @@ class Parser
 
   def parse_financial_statement(t, s)
     t.search("table.info3").each do |section|
-      logger.error "ERROR!! WTF is this? #{section}" if section.children.size != 2
+      puts "ERROR!! WTF is this? #{section}" if section.children.size != 2
     
       if ( section.children.first.text =~ /^ACTIVO/ )
         parse_assets(section, s) 
       elsif ( section.text =~ /^PASIVO/ )
         parse_liabilities(section, s) 
       else
-        logger.error "ERROR!! WTF is this? #{section}"
+        puts "ERROR!! WTF is this? #{section}"
       end
     end
   end
