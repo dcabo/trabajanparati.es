@@ -1,5 +1,17 @@
 function drawGraph(dataSeries) {
-    
+
+    function suffixFormatter(val, axis) {
+        if (Math.abs(val) >= 1000000) {
+            decimals = (( val % 1000000 ) == 0) ? 0 : axis.tickDecimals;
+            return (val / 1000000).toFixed(decimals) + "M €";
+        } else if (Math.abs(val) >= 1000) {
+            decimals = (( val % 1000 ) == 0) ? 0 : axis.tickDecimals;
+            return (val / 1000).toFixed(decimals) + "m €";
+        } else
+            decimals = (( val % 1 ) == 0) ? 0 : axis.tickDecimals;
+        return val.toFixed(decimals);
+    }
+        
     function showTooltip(x, y, contents) {
         $('<div id="tooltip">' + contents + '</div>').css( {
             position: 'absolute',
@@ -35,6 +47,7 @@ function drawGraph(dataSeries) {
     
     $.plot($("#flot"), dataSeries, {
           xaxis: { mode: "time" },
+          yaxis: { tickFormatter: suffixFormatter, labelWidth: 40 },
           series: {
               stack: true,
               bars: { show: true, barWidth: 2000000000 }
