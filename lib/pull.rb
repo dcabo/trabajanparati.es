@@ -166,6 +166,12 @@ class Parser
     end
   end
 
+  def parse_activities(t, s)
+    t.search("table").last.search("td").each do |activity|
+      s.activities << Activity.new(:description=>activity.text)
+    end
+  end
+  
   def parse_statement_page(url)
     agent = Mechanize.new
     puts "Parsing #{BASE_URL+url}..."
@@ -176,8 +182,12 @@ class Parser
     
     parse_personal_data(tables[0], s)
     parse_statement_trigger(tables[1], s)  
-    financial_statement = ( tables[2].text =~ /^DECLARACIÓN DE ACTIVIDADES/ ) ? tables[3] : tables[2]
-    parse_financial_statement(financial_statement, s)  
+    if ( tables[2].text =~ /^DECLARACIÓN DE ACTIVIDADES/ ) 
+      parse_activities(tables[2], s)  
+      parse_financial_statement(tables[3], s)  
+    else
+      parse_financial_statement(tables[2], s)  
+    end
   
     # Delete the same statement, if exists
     Statement.destroy_all(["politician_id=? and event_date=?", s.politician, s.event_date])
