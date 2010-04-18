@@ -1,5 +1,6 @@
+#
 # Usage:
-# script/runner [-e production] lib/pull.rb <start> <finish>
+# script/runner -e production lib/pull.rb <start> <finish>
 require 'rubygems'
 require 'mechanize'
 require 'json'
@@ -203,8 +204,8 @@ p = Parser.new
 #url = 'detallesdb.do?accion=download&id=1729'
 #p.parse_statement_page(url)
 
-if (ARGV.size == 2)
-  ARGV[0].upto(ARGV[1]) {|person_id| p.parse_personal_page(person_id.to_s)}
+if (ARGV.size == 4)
+  ARGV[2].upto(ARGV[3]) {|person_id| p.parse_personal_page(person_id.to_s)}
 end
 
 # Same person, three roles
