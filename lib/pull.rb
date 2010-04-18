@@ -134,6 +134,8 @@ class Parser
     tables = agent.get(BASE_URL+url).search("form > table")
 
     s = Statement.new
+    s.url = BASE_URL+url
+    
     parse_personal_data(tables[0], s)
     parse_statement_trigger(tables[1], s)  
     financial_statement = ( tables[2].text =~ /^DECLARACIÓN DE ACTIVIDADES/ ) ? tables[3] : tables[2]
@@ -164,10 +166,11 @@ p = Parser.new
 url = 'detallesdb.do?accion=download&id=1729'
 #p.parse_statement_page(url)
 
-#p.parse_personal_page("2")
+p.parse_personal_page("1")
+p.parse_personal_page("2")
 
 
 # Same person, three roles
-p.parse_personal_page("5")
-p.parse_personal_page("477")
-p.parse_personal_page("708")
+# p.parse_personal_page("5")
+# p.parse_personal_page("477")
+# p.parse_personal_page("708")

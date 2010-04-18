@@ -94,7 +94,7 @@
 	    <tbody>
       <% for statement in @politician.statements %>
 			<tr>
-				<td><%= link_to statement.event_date, [@politician, statement] %></td>
+				<td><a href="<%=statement.url%>"><%=statement.event_date%></a></td>
 				<td><%= statement.event %></td>
 				<td><%= statement.position %></td>
 				<td><%= statement.entity %></td>
