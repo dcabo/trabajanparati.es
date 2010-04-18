@@ -205,7 +205,10 @@ url = 'detallesdb.do?accion=download&id=2274'
 #p.parse_statement_page(url)
 
 if (ARGV.size == 4)
-  ARGV[2].to_i.upto(ARGV[3].to_i) {|person_id| p.parse_personal_page(person_id.to_s)}
+  ARGV[2].to_i.upto(ARGV[3].to_i) {|person_id| 
+    puts "Parsing person id #{person_id.to_s}..."
+    p.parse_personal_page(person_id.to_s)
+  }
 end
 
 # Same person, three roles
