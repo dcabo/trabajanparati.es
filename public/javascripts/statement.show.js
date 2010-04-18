@@ -24,7 +24,7 @@ function drawGraph(dataSeries) {
                     amount = item.datapoint[1];
                 
                 showTooltip(item.pageX, item.pageY,
-                            item.series.label + ": " + amount + " €");
+                            item.series.label + ": " + formatNumber(amount) + " €");
             }
         }
         else {
