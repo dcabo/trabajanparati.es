@@ -1,0 +1,8 @@
+<table>
+<% for item in @items %>
+<tr><td><%=item.description%></td><td><%=number_with_delimiter(item.value)%> €</td></tr>
+<%end%>
+<%if @items.size > 1 %>
+<tr><td colspan="2" style="text-align: right"><b>Total: <%= number_with_delimiter(@total_amount) %> €</b></td></tr>
+<%end%>
+</table>

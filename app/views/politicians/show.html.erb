@@ -35,6 +35,12 @@
       [<%= statement.event_date.to_datetime.to_f*1000 %>, <%=statement.net_worth %>],
     <% end %>
     ];
+      
+    var statementsIds = [
+    <% for statement in @politician.statements.reverse %>
+      <%= statement.id %>,
+    <% end %>
+    ];
     
     var dataSeries = [ 
       {label: "Inmuebles", data: total_property},
@@ -45,7 +51,7 @@
       {label: "<b>Patrimonio Neto</b>", data: total_net_worth, stack: null, bars: {show: false}, lines: { show: true }}
     ];
     
-    drawGraph(dataSeries);
+    drawGraph(dataSeries, statementsIds);
   });
 </script>
 

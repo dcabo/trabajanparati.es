@@ -1,4 +1,4 @@
-function drawGraph(dataSeries) {
+function drawGraph(dataSeries, statementsIds) {
 
     function suffixFormatter(val, axis) {
         if (Math.abs(val) >= 1000000) {
@@ -13,7 +13,7 @@ function drawGraph(dataSeries) {
     }
         
     function showTooltip(x, y, contents) {
-        $('<div id="tooltip">' + contents + '</div>').css( {
+        $('<div id="tooltip">'+contents+'</div>').css( {
             position: 'absolute',
             display: 'none',
             top: y + 5,
@@ -22,26 +22,35 @@ function drawGraph(dataSeries) {
             padding: '2px',
             'background-color': '#fee',
             opacity: 0.80
-        }).appendTo("body").fadeIn(200);
+        }).appendTo("body").fadeIn(100);
     }
 
-    var previousPoint = null;
+    // TODO: Don't look, don't look, it's so ugly...
+    // Hack together a call-back to retrieve more detailed data when hovering the graph
+    var itemTypes = ['P', 'C', 'F', 'V', 'L', 'N'];
+    
+    var previousDataIndex = null;
+    var previousSeriesIndex = null;
     $("#flot").bind("plothover", function (event, pos, item) {
         if (item) {
-            if (previousPoint != item.datapoint) {
-                previousPoint = item.datapoint;
+            if ((previousDataIndex != item.dataIndex) || (previousSeriesIndex != item.seriesIndex)) {
+                previousDataIndex = item.dataIndex;
+                previousSeriesIndex = item.seriesIndex;
                 
                 $("#tooltip").remove();
                 var x = item.datapoint[0].toFixed(2),
                     amount = item.datapoint[1];
                 
-                showTooltip(item.pageX, item.pageY,
-                            item.series.label + ": " + formatNumber(amount) + " €");
+                // Warning: hardcoded URL 
+                $.get('/statements/'+statementsIds[item.dataIndex]+'/'+itemTypes[item.seriesIndex], function(data) {
+                    showTooltip(item.pageX, item.pageY, data);
+                });
             }
         }
         else {
             $("#tooltip").remove();
-            previousPoint = null;            
+            previousDataIndex = null;
+            previousSeriesIndex = null;
         }
     });
     
