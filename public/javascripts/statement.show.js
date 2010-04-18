@@ -13,6 +13,7 @@ function drawGraph(dataSeries, statementsIds) {
     }
         
     function showTooltip(x, y, contents) {
+        $("#tooltip").remove(); // just in case
         $('<div id="tooltip">'+contents+'</div>').css( {
             position: 'absolute',
             display: 'none',
