@@ -55,17 +55,15 @@
       <p class="large">Alto Cargo: <b><%= @politician.name %></b></p>
       <p>Último cargo ejercido: <%= @politician.statements.first.position %></p>
       <p>Consejería / Organismo: <%= @politician.statements.first.entity %></p>
-      <p class="small">(Nota 1: Para los bienes inmuebles las declaraciones de bienes recogen el valor catastral, 
-        salvo que la descripción diga lo contrario. Este valor puede no coincidir con el precio de mercado.)</p>
       <p class="small">(Datos: Junta de Andalucía. Enlaces a las declaraciones originales en la tabla 
         al final de la página.)</p>
   </div>
 
   <div id="flot-wrapper" class="span-22 last clear" style="margin-bottom: 30px;">
     <div id="flot" style="width:600px;height:300px;" class="span-14"></div>
-    <div id="flot-legend" class="span-4"></div>
+    <div id="flot-legend" class="span-4 last"></div>
   </div>
-   
+
   <div class="span-16 last clear">
     <h3>Última declaración</h3>
     <table id="data-table" cellspacing="1" class="tablesorter">             
@@ -84,6 +82,8 @@
 			<% end %>
 	    </tbody>
 	  </table>
+    <p class="small">(Nota: Para los bienes inmuebles las declaraciones de bienes recogen el valor catastral, 
+      salvo que la descripción diga lo contrario. Este valor puede no coincidir con el precio de mercado.)</p>
   </div>
   
   <div class="span-16 last clear">
