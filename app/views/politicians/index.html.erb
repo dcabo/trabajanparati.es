@@ -21,7 +21,7 @@
   			},
   			{
   				"fnRender": function ( oObj ) {
-  					return oObj.aData[4] == 'n/a' ? 'n/a' : formatNumber(oObj.aData[4]) +' €';
+  					return oObj.aData[4] == '' ? 'N. D.' : formatNumber(oObj.aData[4]) +' €';
   				},
   				"bUseRendered": false
   			}
@@ -76,7 +76,7 @@
 				<td class="ralign"><%= 
 				  (politician.statements.size > 1) ?
 				    politician.statements[0].net_worth-politician.statements[1].net_worth :
-				    'n/a' %></td>
+				    '' %></td>
 			</tr>
 			<% end %>
 	    </tbody>
