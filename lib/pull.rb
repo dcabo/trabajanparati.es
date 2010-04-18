@@ -42,7 +42,22 @@ class Parser
     amounts
   end
 
-
+  def extract_items_from_table(t)
+    # The HTML is broken, so we can't fetch the <tr>. use TD instead, brute force...
+    items = []
+    item_description = ""
+    t.search("td").each do |td|
+      if td.text =~ /\d/ # Got value
+        items.push([item_description, parse_amount(td.text)]) 
+        item_description = ""
+      else
+        # There are a variable number of fields per item
+        item_description = (item_description=="") ? td.text : item_description+" - "+td.text
+      end
+    end
+    items
+  end
+  
   def parse_assets(t, s)
     assets = t.children.last.children # TD inside the second TR  
     # Parse the actual financial data, which comes as text + embedded tables
@@ -70,25 +85,38 @@ class Parser
       when /^\302/:
         if ( expecting == :bank_account_data )
           s.total_cash = parse_amount(line.text)
+          s.items << Item.new(:description=>"Cuentas bancarias", :value=>s.total_cash)
         else
           logger.warn "## #{line.text}"
         end      
       else
         if (line.node_name == 'table')
-          values = extract_amounts_from_table(line)
+          values = extract_items_from_table(line)
           case expecting
           when :property_data 
-            values.each { |value| logger.debug "  GOT PROPERTY #{value}" }
-            s.total_property = values.inject(0) { |sum,x| sum+x }
+            values.each { |value| 
+              logger.debug "  GOT PROPERTY #{value[0]} FOR #{value[1]}"
+              s.items << Item.new(:description=>value[0], :value=>value[1])
+            }
+            s.total_property = values.inject(0) { |sum,x| sum+x[1] }
           when :funds_data
-            values.each { |value| logger.debug "  GOT FUNDS #{value}" }
-            s.total_funds = values.inject(0) { |sum,x| sum+x }
+            values.each { |value| 
+              logger.debug "  GOT FUNDS #{value[0]} FOR #{value[1]}" 
+              s.items << Item.new(:description=>value[0], :value=>value[1])
+            }
+            s.total_funds = values.inject(0) { |sum,x| sum+x[1] }
           when :vehicle_data
-            values.each { |value| logger.debug "  GOT VEHICLE #{value}" }
-            s.total_vehicles = values.inject(0) { |sum,x| sum+x }
+            values.each { |value| 
+              logger.debug "  GOT VEHICLE #{value[0]} FOR #{value[1]}" 
+              s.items << Item.new(:description=>value[0], :value=>value[1])
+            }
+            s.total_vehicles = values.inject(0) { |sum,x| sum+x[1] }
           when :insurance_data
-            values.each { |value| logger.debug "  GOT INSURANCE #{value}" }
-            s.total_insurance = values.inject(0) { |sum,x| sum+x }
+            values.each { |value| 
+              logger.debug "  GOT INSURANCE #{value[0]} FOR #{value[1]}" 
+              s.items << Item.new(:description=>value[0], :value=>value[1])
+            }
+            s.total_insurance = values.inject(0) { |sum,x| sum+x[1] }
           end
         else
           logger.warn "## #{line.text}"
@@ -108,9 +136,12 @@ class Parser
         # Nothing to do
       else
         if (line.node_name == 'table')
-          values = extract_amounts_from_table(line)
-          values.each { |value| logger.debug "  OWES #{value}" }
-          s.total_liabilities = values.inject(0) { |sum,x| sum+x }
+          values = extract_items_from_table(line)
+          values.each { |value| 
+            logger.debug "  OWES #{value[0]} FOR #{value[1]}" 
+            s.items << Item.new(:description=>value[0], :value=>value[1], :statement_id=>s)
+          }
+          s.total_liabilities = values.inject(0) { |sum,x| sum+x[1] }
         else
           logger.warn "## #{line.text}"
         end
@@ -146,7 +177,7 @@ class Parser
     parse_financial_statement(financial_statement, s)  
   
     # Delete the same statement, if exists
-    Statement.delete_all(["politician_id=? and event_date=?", s.politician, s.event_date])
+    Statement.destroy_all(["politician_id=? and event_date=?", s.politician, s.event_date])
   
     s.save!
   end
