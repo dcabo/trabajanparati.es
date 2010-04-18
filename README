@@ -1,7 +1,6 @@
 TO DO:
- - mostrar información detallada al pasar ratón sobre las barras del gráfico
  - arreglar anchura de barras en gráfico: ahora hardcodeado
- - add comments?
+ - permitir comentarios de usuarios (si no se desmadran)
  - hacer algo con el click en el gráfico?
 
 Mejoras futuras:
