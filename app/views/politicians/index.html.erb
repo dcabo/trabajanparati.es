@@ -7,7 +7,7 @@
       textExtraction: function(node) { 
         return node.textContent.replace(/[,€]/g,'');
       },
-      sortList: [[1,1]] 
+      sortList: [[3,1]] 
     });
   });
 </script>
@@ -25,18 +25,22 @@
       <p class="small">(Datos: Junta de Andalucía)</p>
   </div>
 
-  <div class="prepend-2 span-12 last">
+  <div class="span-18 last">
     <table id="data-table" cellspacing="1" class="tablesorter">             
 	    <thead>
 	      <tr>
-	        <th width="70%">Nombre</th>
-	        <th width="30%">Último Patrimonio</th>
+	        <th width="30%">Nombre</th>
+	        <th width="30%">Cargo</th>
+	        <th width="20%">Organismo</th>
+	        <th width="15%">Último Patrimonio</th>
 	      </tr>
 	    </thead>
 	    <tbody>
       <% for politician in @politicians %>
 			<tr>
 				<td><%= link_to politician.name, politician %></td>
+				<td><%= politician.statements.first.position %></td>
+				<td><%= politician.statements.first.entity %></td>
 				<td class="ralign"><%= number_with_delimiter(politician.statements.first.net_worth) %> €</td>
 			</tr>
 			<% end %>
