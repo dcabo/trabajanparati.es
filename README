@@ -1,0 +1,11 @@
+TO DO:
+ - mostrar información detallada al pasar ratón sobre las barras del gráfico
+ - arreglar anchura de barras en gráfico: ahora hardcodeado
+ - add comments?
+ - hacer algo con el click en el gráfico?
+
+Mejoras futuras:
+ - ofrecer API
+ - extender a otras regiones, y al Parlamento de Andalucía. Ver información disponible en http://datospublicos.jottit.com/pol%C3%ADtica
+ - Añadir información sobre salarios (de diputados, porque de altos cargos no sé si hay nada)
+ - Añadir info de otras fuentes? permitir que usuarios añadan datos?
