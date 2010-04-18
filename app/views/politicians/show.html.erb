@@ -65,17 +65,38 @@
 
 <div class="push-1 span-18"> 
 	<h2>Patrimonios declarados - <%= @politician.name %></h2>
-  <div class="push-1 span-16 last" id="graph-params">
+  <div class="push-1 span-16 last">
       <p class="large">Blah blah</p>
       <p>Blah blah blah.</p>
       <p class="small">(Datos: Junta de Andalucía)</p>
   </div>
 
-  <div id="flot-wrapper" class="span-18 last">
+  <div id="flot-wrapper" class="span-18 last clear" style="margin-bottom: 30px;">
     <div id="flot" style="width:650px;height:300px;" class="span-14 last"></div>
   </div>
     
-  <div class=" span-14 last">
+  <h3>Última declaración</h3>
+  <div class="span-16 clear">
+    <table id="data-table" cellspacing="1" class="tablesorter">             
+	    <thead>
+	      <tr>
+	        <th>Descripción</th>
+	        <th align="right">Valor Euros</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+      <% for item in @politician.statements.first.items %>
+			<tr>
+				<td><%= item.description%></a></td>
+				<td class="ralign"><%= item.value %> €</td>
+			</tr>
+			<% end %>
+	    </tbody>
+	  </table>
+  </div>
+  
+  <h3>Histórico de declaraciones</h3>
+  <div class="span-16 last">
     <table id="data-table" cellspacing="1" class="tablesorter">             
 	    <thead>
 	      <tr>
@@ -98,12 +119,12 @@
 				<td><%= statement.event %></td>
 				<td><%= statement.position %></td>
 				<td><%= statement.entity %></td>
-				<td><%= statement.total_property || '0' %> €</td>
-				<td><%= statement.total_cash || '0' %> €</td>
-				<td><%= statement.total_funds || '0' %> €</td>
-				<td><%= statement.total_insurance || '0' %> €</td>
-				<td><%= statement.total_vehicles || '0' %> €</td>
-				<td><%= statement.total_liabilities || '0' %> €</td>
+				<td class="ralign"><%= statement.total_property || '0' %> €</td>
+				<td class="ralign"><%= statement.total_cash || '0' %> €</td>
+				<td class="ralign"><%= statement.total_funds || '0' %> €</td>
+				<td class="ralign"><%= statement.total_insurance || '0' %> €</td>
+				<td class="ralign"><%= statement.total_vehicles || '0' %> €</td>
+				<td class="ralign"><%= statement.total_liabilities || '0' %> €</td>
 			</tr>
 			<% end %>
 	    </tbody>

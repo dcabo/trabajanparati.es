@@ -85,7 +85,7 @@ class Parser
       when /^\302/:
         if ( expecting == :bank_account_data )
           s.total_cash = parse_amount(line.text)
-          s.items << Item.new(:description=>"Cuentas bancarias", :value=>s.total_cash)
+          s.items << Item.new(:description=>"CUENTAS BANCARIAS", :value=>s.total_cash)
         else
           logger.warn "## #{line.text}"
         end      
@@ -139,7 +139,7 @@ class Parser
           values = extract_items_from_table(line)
           values.each { |value| 
             logger.debug "  OWES #{value[0]} FOR #{value[1]}" 
-            s.items << Item.new(:description=>value[0], :value=>value[1], :statement_id=>s)
+            s.items << Item.new(:description=>value[0], :value=>-value[1], :statement_id=>s)
           }
           s.total_liabilities = values.inject(0) { |sum,x| sum+x[1] }
         else
