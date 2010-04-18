@@ -39,7 +39,11 @@ function drawGraph(dataSeries) {
               stack: true,
               bars: { show: true, barWidth: 2000000000 }
           },
-          grid: { hoverable: true, clickable: true }, 
+          grid: { 
+              hoverable: true, 
+              clickable: true, 
+              markings: [{ color: '#eee', yaxis: { to: 0 } }]
+          }, 
           legend: { noColumns: 1, container: $("#flot-legend") }         
         });
 }
