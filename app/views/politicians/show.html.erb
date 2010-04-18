@@ -1,6 +1,6 @@
 <!--[if IE]><script type="text/javascript" src="/javascripts/excanvas.min.js"></script><![endif]-->
 <%= render :partial => "partials/include_base" %>  
-<%= javascript_include_tag 'jquery.flot', 'jquery.flot.stack', :cache => 'cache/politicians/show'  %>
+<%= javascript_include_tag 'jquery.flot', 'jquery.flot.stack', 'statement.show', :cache => 'cache/politicians/show'  %>
 
 <script type="text/javascript">
   $(document).ready(function() {
@@ -53,13 +53,7 @@
       {label: "Patrimonio", data: total_net_worth, stack: null, bars: {show: false}, lines: { show: true }}
     ];
     
-    $.plot($("#flot"), dataSeries, {
-          xaxis: { mode: "time" },
-          series: {
-              stack: true,
-              bars: { show: true, barWidth: 2000000000 }
-          }
-        });
+    drawGraph(dataSeries);
   });
 </script>
 
@@ -75,7 +69,7 @@
   <div id="flot-wrapper" class="span-18 last clear" style="margin-bottom: 30px;">
     <div id="flot" style="width:650px;height:300px;" class="span-14 last"></div>
   </div>
-    
+   
   <h3>Última declaración</h3>
   <div class="span-16 clear">
     <table id="data-table" cellspacing="1" class="tablesorter">             
