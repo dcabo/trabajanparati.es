@@ -100,12 +100,9 @@
 	        <th>Motivo</th>
 	        <th>Cargo</th>
 	        <th>Organismo</th>
-	        <th width="10%">Inmuebles</th>
-	        <th width="10%">Cuentas</th>
-	        <th width="10%">Fondos</th>
-	        <th width="10%">Seguros</th>
-	        <th width="10%">Vehículos</th>
-	        <th width="10%">Préstamos</th>
+	        <th width="10%">Bienes Totales</th>
+	        <th width="10%">Préstamos e Hipotecas</th>
+	        <th width="10%">Patrimonio Neto</th>
 	      </tr>
 	    </thead>
 	    <tbody>
@@ -115,12 +112,9 @@
 				<td><%= statement.event %></td>
 				<td><%= statement.position %></td>
 				<td><%= statement.entity %></td>
-				<td class="ralign"><%= number_with_delimiter(statement.total_property) %> €</td>
-				<td class="ralign"><%= number_with_delimiter(statement.total_cash) %> €</td>
-				<td class="ralign"><%= number_with_delimiter(statement.total_funds) %> €</td>
-				<td class="ralign"><%= number_with_delimiter(statement.total_insurance) %> €</td>
-				<td class="ralign"><%= number_with_delimiter(statement.total_vehicles) %> €</td>
+				<td class="ralign"><%= number_with_delimiter(statement.total_assets) %> €</td>
 				<td class="ralign"><%= number_with_delimiter(statement.total_liabilities) %> €</td>
+				<td class="ralign"><%= number_with_delimiter(statement.net_worth) %> €</td>
 			</tr>
 			<% end %>
 	    </tbody>
