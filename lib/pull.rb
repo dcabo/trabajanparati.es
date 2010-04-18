@@ -15,7 +15,7 @@ class Parser
     first_name = t.search("tr:nth-child(2) .col5Cont:nth-child(3)").children.last.text
     
     # ...and use that to fetch the DB entry (or create it if needed)
-    p = Politician.find_or_create_by_name("#{first_name} #{first_family_name} #{second_family_name}")
+    p = Politician.find_or_create_by_name("#{first_family_name} #{second_family_name}, #{first_name}")
     
     s.politician = p
     s.position = t.search("tr:nth-child(3) .col5Cont:nth-child(1)").children.last.text
@@ -88,7 +88,7 @@ class Parser
       when /^\302/:
         if ( expecting == :bank_account_data )
           s.total_cash = parse_amount(line.text)
-          s.items << Item.new(:description=>"CUENTAS BANCARIAS", :value=>s.total_cash)
+          s.items << Item.new(:description=>"CUENTAS BANCARIAS", :value=>s.total_cash, :item_type=>Item::CASH)
         else
           puts "## WARNING #{line.text}"
         end      
@@ -99,25 +99,25 @@ class Parser
           when :property_data 
             values.each { |value| 
               logger.debug "  GOT PROPERTY #{value[0]} FOR #{value[1]}"
-              s.items << Item.new(:description=>value[0], :value=>value[1])
+              s.items << Item.new(:description=>value[0], :value=>value[1], :item_type=>Item::PROPERTY)
             }
             s.total_property = values.inject(0) { |sum,x| sum+x[1] }
           when :funds_data
             values.each { |value| 
               logger.debug "  GOT FUNDS #{value[0]} FOR #{value[1]}" 
-              s.items << Item.new(:description=>value[0], :value=>value[1])
+              s.items << Item.new(:description=>value[0], :value=>value[1], :item_type=>Item::FUND)
             }
             s.total_funds = values.inject(0) { |sum,x| sum+x[1] }
           when :vehicle_data
             values.each { |value| 
               logger.debug "  GOT VEHICLE #{value[0]} FOR #{value[1]}" 
-              s.items << Item.new(:description=>value[0], :value=>value[1])
+              s.items << Item.new(:description=>value[0], :value=>value[1], :item_type=>Item::VEHICLE)
             }
             s.total_vehicles = values.inject(0) { |sum,x| sum+x[1] }
           when :insurance_data
             values.each { |value| 
               logger.debug "  GOT INSURANCE #{value[0]} FOR #{value[1]}" 
-              s.items << Item.new(:description=>value[0], :value=>value[1])
+              s.items << Item.new(:description=>value[0], :value=>value[1], :item_type=>Item::INSURANCE)
             }
             s.total_insurance = values.inject(0) { |sum,x| sum+x[1] }
           end
@@ -142,7 +142,7 @@ class Parser
           values = extract_items_from_table(line)
           values.each { |value| 
             logger.debug "  OWES #{value[0]} FOR #{value[1]}" 
-            s.items << Item.new(:description=>value[0], :value=>-value[1], :statement_id=>s)
+            s.items << Item.new(:description=>value[0], :value=>-value[1], :item_type=>Item::LIABILITY)
           }
           s.total_liabilities = values.inject(0) { |sum,x| sum+x[1] }
         else
@@ -201,8 +201,8 @@ end
 
 p = Parser.new
 
-url = 'detallesdb.do?accion=download&id=2278'
-#p.parse_statement_page(url)
+url = 'detallesdb.do?accion=download&id=1958'
+p.parse_statement_page(url)
 
 if (ARGV.size == 4)
   ARGV[2].to_i.upto(ARGV[3].to_i) {|person_id| 
