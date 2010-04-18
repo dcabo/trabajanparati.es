@@ -16,7 +16,11 @@ class Parser
     
     s.politician = p
     s.position = t.search("tr:nth-child(3) .col5Cont:nth-child(1)").children.last.text
-    s.entity = t.search("tr:nth-child(4) .col5Cont:nth-child(1)").children.last.text
+    s.entity = t.search("tr:nth-child(4) .col5Cont:nth-child(2)").children.last.text
+
+    if ( s.entity =~ /ORGANISMO O ENTIDAD:/ ) # Empty field
+      s.entity = t.search("tr:nth-child(4) .col5Cont:nth-child(1)").children.last.text
+    end
   end
 
   def parse_statement_trigger(t, s)
@@ -164,10 +168,10 @@ end
 p = Parser.new
 
 url = 'detallesdb.do?accion=download&id=1729'
-#p.parse_statement_page(url)
+p.parse_statement_page(url)
 
-p.parse_personal_page("1")
-p.parse_personal_page("2")
+#p.parse_personal_page("1")
+#p.parse_personal_page("2")
 
 
 # Same person, three roles
