@@ -82,17 +82,25 @@
 			<% end %>
 	    </tbody>
 	  </table>
-    <p class="small">(Nota: Para los bienes inmuebles las declaraciones de bienes recogen el valor catastral, 
-      salvo que la descripción diga lo contrario. Este valor puede no coincidir con el precio de mercado.)</p>
+    <p class="small">Nota 1: Para los bienes inmuebles las declaraciones de bienes recogen el valor catastral, 
+      salvo que la descripción diga lo contrario. Este valor puede no coincidir con el precio de mercado.</p>
+    <p class="small">Nota 2: Patrimonio Neto es la suma de los activos de una persona (inmuebles, 
+	    fondos de inversión, cuentas bancarias y vehículos), menos la suma de sus deudas (préstamos 
+	    personales e hipotecas). Hemos decidido excluir los seguros de vida del cálculo, ya que
+	    distorsiona los resultados al producir incrementos repentinos de capital que son ficticios.</p>  	  
   </div>
   
   <div class="span-16 last clear">
     <h3>Últimas actividades e intereses declarados</h3>
+    <%if @politician.statements.first.activities.empty? %>
+      <p>No se han declarado otras actividades.</p>
+    <%else%>
     <ul>
       <% for activity in @politician.statements.first.activities %>
       <li><%= activity.description%></li>
 			<% end %>      
     </ul>
+    <%end%>
   </div>
   
   <h3>Histórico de declaraciones</h3>
