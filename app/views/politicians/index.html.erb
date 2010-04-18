@@ -1,14 +1,44 @@
 <%= render :partial => "partials/include_base" %>  
-<%= javascript_include_tag 'jquery.tablesorter', 'jquery.tablesorter.pager' %>
+<%= javascript_include_tag 'jquery.datatables' %>
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $("#data-table").tablesorter({ 
-      textExtraction: function(node) { 
-        return node.textContent.replace(/[,€]/g,'');
-      },
-      sortList: [[3,1]] 
-    }).tablesorterPager({container: $("#pager")});
+    $("#data-table").dataTable({
+      "aaSorting": [[3,'desc']],
+      "iDisplayLength": 25,
+      "sDom": "frtilp",
+      "bLengthChange": false,
+      "sPaginationType": "full_numbers",
+  		"aoColumns": [ 
+  			null,
+  			null,
+  			null,
+  			{
+  				"fnRender": function ( oObj ) {
+  					return formatNumber(oObj.aData[3]) +' €';
+  				},
+  				"bUseRendered": false
+  			},
+  			{
+  				"fnRender": function ( oObj ) {
+  					return oObj.aData[4] == 'n/a' ? 'n/a' : formatNumber(oObj.aData[4]) +' €';
+  				},
+  				"bUseRendered": false
+  			}
+  		],
+  		"oLanguage": {
+  		  "oPaginate": {
+  		    "sFirst": "<<",
+  		    "sLast": ">>",
+  		    "sNext": ">",
+  		    "sPrevious": "<"
+  		  },
+  		  "sInfo": "Mostrando _START_ a _END_ (de _TOTAL_)",
+  		  "sInfoFiltered": " - filtrados de un total de _MAX_ registros",
+  		  "sSearch": "Buscar"
+		  }
+    });
+    
   });
 </script>
 
@@ -42,11 +72,11 @@
 				<td><%= link_to politician.name, politician %></td>
 				<td><%= politician.statements.first.position %></td>
 				<td><%= politician.statements.first.entity %></td>
-				<td class="ralign"><%= number_with_delimiter(politician.statements.first.net_worth) %> €</td>
+				<td class="ralign"><%= politician.statements.first.net_worth %></td>
 				<td class="ralign"><%= 
 				  (politician.statements.size > 1) ?
-				    number_with_delimiter(politician.statements[0].net_worth-politician.statements[1].net_worth) :
-				    'n/a' %> €</td>
+				    politician.statements[0].net_worth-politician.statements[1].net_worth :
+				    'n/a' %></td>
 			</tr>
 			<% end %>
 	    </tbody>

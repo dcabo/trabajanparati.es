@@ -41,3 +41,27 @@ table.tablesorter thead tr .headerSortDown {
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
 background-color: #8dbdd8;
 }
+
+/* DataTables hack */
+table.tablesorter thead tr .sorting_asc {
+	background-image: url(/images/icons/desc.gif);
+  background-repeat:no-repeat;
+  background-position:right center;
+  background-color: #8dbdd8;
+}
+table.tablesorter thead tr .sorting_desc {
+	background-image: url(/images/icons/asc.gif);
+	background-repeat:no-repeat;
+	background-position:right center;
+  background-color: #8dbdd8;
+}
+.dataTables_info, .dataTables_paginate, .dataTables_filter { font-family: Verdana, "Lucida Grande", "Helvetica Neue", Arial, Helvetica, sans-serif; }
+.paginate_active {
+  margin-right: 3px;
+  font-size: 1.1em;
+  color:#cb4b4b;
+  font-weight:bold;
+}
+.paginate_button {
+  margin-right: 3px;
+}
