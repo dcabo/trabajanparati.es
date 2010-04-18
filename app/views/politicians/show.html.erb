@@ -57,12 +57,12 @@
   });
 </script>
 
-<div class="push-1 span-18"> 
+<div class="push-1 span-16 last"> 
 	<h2>Evolución del Patrimonio Declarado</h2>
   <div class="push-1 span-16 last">
       <p class="large">Alto Cargo: <b><%= @politician.name %></b></p>
       <p>Último cargo ejercido: <%= @politician.statements.first.position %></p>
-      <p>Organismo: <%= @politician.statements.first.entity %></p>
+      <p>Consejería / Organismo: <%= @politician.statements.first.entity %></p>
       <p class="small">(Datos: Junta de Andalucía)</p>
   </div>
 
@@ -71,8 +71,8 @@
     <div id="flot-legend" class="span-4"></div>
   </div>
    
-  <h3>Última declaración</h3>
-  <div class="span-16 clear">
+  <div class="span-16 last clear">
+    <h3>Última declaración</h3>
     <table id="data-table" cellspacing="1" class="tablesorter">             
 	    <thead>
 	      <tr>
@@ -89,6 +89,15 @@
 			<% end %>
 	    </tbody>
 	  </table>
+  </div>
+  
+  <div class="span-16 last clear">
+    <h3>Últimas actividades e intereses declarados</h3>
+    <ul>
+      <% for activity in @politician.statements.first.activities %>
+      <li><%= activity.description%></li>
+			<% end %>      
+    </ul>
   </div>
   
   <h3>Histórico de declaraciones</h3>
