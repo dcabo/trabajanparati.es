@@ -212,7 +212,7 @@ end
 p = Parser.new
 
 url = 'detallesdb.do?accion=download&id=1958'
-p.parse_statement_page(url)
+#p.parse_statement_page(url)
 
 if (ARGV.size == 4)
   ARGV[2].to_i.upto(ARGV[3].to_i) {|person_id| 
