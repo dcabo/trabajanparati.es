@@ -50,7 +50,7 @@ class Parser
     items = []
     item_description = ""
     t.search("td").each do |td|
-      if td.text =~ /\d/ # Got value
+      if td.text =~ /,\d\d/ # Got value
         items.push([item_description, parse_amount(td.text)]) 
         item_description = ""
       else
@@ -201,8 +201,8 @@ end
 
 p = Parser.new
 
-#url = 'detallesdb.do?accion=download&id=1729'
-#p.parse_statement_page(url)
+url = 'detallesdb.do?accion=download&id=2274'
+p.parse_statement_page(url)
 
 if (ARGV.size == 4)
   ARGV[2].upto(ARGV[3]) {|person_id| p.parse_personal_page(person_id.to_s)}
