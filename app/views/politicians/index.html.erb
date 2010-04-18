@@ -53,6 +53,7 @@
       <p class="large">Este proyecto es parte del <a href="http://www.abredatos.es/">Desafío AbreDatos 2010</a> 
         promovido por <a href="http://blog.probp.org/">Pro Bono Publico</a>.</p> 
       <p class="small">(Datos: Junta de Andalucía)</p>
+
   </div>
 
   <div class="span-20 last">
@@ -62,7 +63,7 @@
 	        <th width="30%">Nombre</th>
 	        <th width="30%">Cargo</th>
 	        <th width="20%">Consejería / Organismo</th>
-	        <th width="10%">Último Patrimonio</th>
+	        <th width="10%">Patrimonio<br/>Neto (*)</th>
 	        <th width="10%">Último Incremento</th>
 	      </tr>
 	    </thead>
@@ -81,6 +82,11 @@
 			<% end %>
 	    </tbody>
 	  </table>
+	  
+	  <p class="small">* Nota: Patrimonio Neto es la suma de los activos de una persona (inmuebles, 
+	    fondos de inversión, cuentas bancarias y vehículos), menos la suma de sus deudas (préstamos 
+	    personales e hipotecas). Hemos decidido excluir los seguros de vida del cálculo, ya que
+	    distorsiona los resultados al producir incrementos repentinos de capital que son ficticios.</p>
   </div>
 </div>			
 			

@@ -4,7 +4,7 @@ class Statement < ActiveRecord::Base
   has_many :activities
   
   def total_assets
-    total_cash + total_property + total_funds + total_insurance + total_vehicles
+    total_cash + total_property + total_funds + total_vehicles
   end
   
   def net_worth
