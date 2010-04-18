@@ -25,14 +25,15 @@
       <p class="small">(Datos: Junta de Andalucía)</p>
   </div>
 
-  <div class="span-18 last">
+  <div class="span-20 last">
     <table id="data-table" cellspacing="1" class="tablesorter">             
 	    <thead>
 	      <tr>
 	        <th width="30%">Nombre</th>
 	        <th width="30%">Cargo</th>
 	        <th width="20%">Organismo</th>
-	        <th width="15%">Último Patrimonio</th>
+	        <th width="10%">Último Patrimonio</th>
+	        <th width="10%">Último Incremento</th>
 	      </tr>
 	    </thead>
 	    <tbody>
@@ -42,6 +43,10 @@
 				<td><%= politician.statements.first.position %></td>
 				<td><%= politician.statements.first.entity %></td>
 				<td class="ralign"><%= number_with_delimiter(politician.statements.first.net_worth) %> €</td>
+				<td class="ralign"><%= 
+				  (politician.statements.size > 1) ?
+				    number_with_delimiter(politician.statements[0].net_worth-politician.statements[1].net_worth) :
+				    'n/a' %> €</td>
 			</tr>
 			<% end %>
 	    </tbody>
