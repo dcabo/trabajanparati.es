@@ -57,6 +57,7 @@ function drawGraph(dataSeries) {
               clickable: true, 
               markings: [{ color: '#eee', yaxis: { to: 0 } }]
           }, 
-          legend: { noColumns: 1, container: $("#flot-legend") }         
+          legend: { noColumns: 1, container: $("#flot-legend") },
+          colors: ["#edc240", "#afd8f8", "#9440ed", "#bbb", "#4da74d", "#cb4b4b", "#555"]
         });
 }
