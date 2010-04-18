@@ -45,12 +45,12 @@
     
     var dataSeries = [ 
       {label: "Inmuebles", data: total_property},
-      {label: "Cuentas", data: total_cash},
-      {label: "Fondos", data: total_funds},
-      {label: "Seguros", data: total_insurance},
+      {label: "Cuentas Bancarias", data: total_cash},
+      {label: "Acciones y Fondos", data: total_funds},
+      {label: "Seguros de Vida", data: total_insurance},
       {label: "Vehículos", data: total_vehicles},
-      {label: "Préstamos", data: total_liabilities, stack: 'liabilities'},
-      {label: "Patrimonio", data: total_net_worth, stack: null, bars: {show: false}, lines: { show: true }}
+      {label: "Préstamos/Hipotecas", data: total_liabilities, stack: 'liabilities'},
+      {label: "<b>Patrimonio Neto</b>", data: total_net_worth, stack: null, bars: {show: false}, lines: { show: true }}
     ];
     
     drawGraph(dataSeries);
@@ -61,13 +61,14 @@
 	<h2>Evolución del Patrimonio Declarado</h2>
   <div class="push-1 span-16 last">
       <p class="large">Alto Cargo: <b><%= @politician.name %></b></p>
-      <p>Último cargo: <%= @politician.statements.first.position %></p>
+      <p>Último cargo ejercido: <%= @politician.statements.first.position %></p>
       <p>Organismo: <%= @politician.statements.first.entity %></p>
       <p class="small">(Datos: Junta de Andalucía)</p>
   </div>
 
-  <div id="flot-wrapper" class="span-18 last clear" style="margin-bottom: 30px;">
-    <div id="flot" style="width:650px;height:300px;" class="span-14 last"></div>
+  <div id="flot-wrapper" class="span-22 last clear" style="margin-bottom: 30px;">
+    <div id="flot" style="width:600px;height:300px;" class="span-14"></div>
+    <div id="flot-legend" class="span-4"></div>
   </div>
    
   <h3>Última declaración</h3>
