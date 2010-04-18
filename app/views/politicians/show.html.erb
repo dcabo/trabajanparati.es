@@ -1,3 +1,68 @@
+<!--[if IE]><script type="text/javascript" src="/javascripts/excanvas.min.js"></script><![endif]-->
+<%= render :partial => "partials/include_base" %>  
+<%= javascript_include_tag 'jquery.flot', 'jquery.flot.stack', :cache => 'cache/politicians/show'  %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    var total_property = [
+    <% for statement in @politician.statements.reverse %>
+      [<%= statement.event_date.to_datetime.to_f*1000 %>, <%= statement.total_property||0 %>],
+    <% end %>
+    ];
+    var total_cash = [
+    <% for statement in @politician.statements.reverse %>
+      [<%= statement.event_date.to_datetime.to_f*1000 %>, <%= statement.total_cash||0 %>],
+    <% end %>
+    ];
+    var total_funds = [
+    <% for statement in @politician.statements.reverse %>
+      [<%= statement.event_date.to_datetime.to_f*1000 %>, <%= statement.total_funds||0 %>],
+    <% end %>
+    ];
+    var total_insurance = [
+    <% for statement in @politician.statements.reverse %>
+      [<%= statement.event_date.to_datetime.to_f*1000 %>, <%= statement.total_insurance||0 %>],
+    <% end %>
+    ];
+    var total_vehicles = [
+    <% for statement in @politician.statements.reverse %>
+      [<%= statement.event_date.to_datetime.to_f*1000 %>, <%= statement.total_vehicles||0 %>],
+    <% end %>
+    ];
+    var total_liabilities = [
+    <% for statement in @politician.statements.reverse %>
+      [<%= statement.event_date.to_datetime.to_f*1000 %>, <%=-(statement.total_liabilities||0) %>],
+    <% end %>
+    ];
+    var total_net_worth = [
+    <% for statement in @politician.statements.reverse %>
+      [<%= statement.event_date.to_datetime.to_f*1000 %>, 
+        <%=(statement.total_property||0)+(statement.total_cash||0)+(statement.total_funds||0)+
+        (statement.total_insurance||0)+(statement.total_vehicles||0)-(statement.total_liabilities||0) %>],
+    <% end %>
+    ];
+    
+    var dataSeries = [ 
+      {label: "Inmuebles", data: total_property},
+      {label: "Cuentas", data: total_cash},
+      {label: "Fondos", data: total_funds},
+      {label: "Seguros", data: total_insurance},
+      {label: "Vehículos", data: total_vehicles},
+      {label: "Préstamos", data: total_liabilities, stack: 'liabilities'},
+      {label: "Patrimonio", data: total_net_worth, stack: null, bars: {show: false}, lines: { show: true }}
+    ];
+    
+    $.plot($("#flot"), dataSeries, {
+          xaxis: { mode: "time" },
+          series: {
+              stack: true,
+              bars: { show: true, barWidth: 2000000000 }
+          }
+        });
+  });
+</script>
+
 <div class="push-1 span-18"> 
 	<h2>Patrimonios declarados - <%= @politician.name %></h2>
   <div class="push-1 span-16 last" id="graph-params">
@@ -6,6 +71,10 @@
       <p class="small">(Datos: Junta de Andalucía)</p>
   </div>
 
+  <div id="flot-wrapper" class="span-18 last">
+    <div id="flot" style="width:650px;height:300px;" class="span-14 last"></div>
+  </div>
+    
   <div class=" span-14 last">
     <table id="data-table" cellspacing="1" class="tablesorter">             
 	    <thead>
