@@ -1,0 +1,27 @@
+check cache headers?!
+
+
+to do:
+ - improve hover up: show items / fix stacked amounts!
+ - do sth on click?
+ - fix barwidth issue
+ - check google analytics
+ - add comments via twitter or discus?
+
+
+future:
+ - offer api
+ - extend to other regions (and andalucia parliament)
+ - add info on salaries
+ - collect data from other sources, if any (or allow crowdsourcing)
+
+what about campaigning 
+
+
+TODO later
+641 falla, y formato diferente
+692
+
+parece que acaba en 803
+
+y 462 (GARCÍA RUIZ, JOSÉ LUIS) no tiene statements
